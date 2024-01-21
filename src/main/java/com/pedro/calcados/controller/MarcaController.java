@@ -4,7 +4,8 @@ import java.util.List;
 import com.pedro.calcados.model.Marca;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
-import com.pedro.calcados.repository.MarcaRepository;
+import com.pedro.calcados.service.MarcaService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,28 +16,27 @@ import org.springframework.http.HttpStatus;
 @RestController
 @RequestMapping("/marca")
 public class MarcaController {
-  private final MarcaRepository marcaRepository;
+  private final MarcaService marcaService;
 
   @Autowired
-  public MarcaController(MarcaRepository marcaRepository) {
-    this.marcaRepository = marcaRepository;
+  public MarcaController(MarcaService marcaService) {
+    this.marcaService = marcaService;
   }
 
   @GetMapping()
   public List<Marca> list() {
-    return marcaRepository.findAll();
+    return marcaService.listarMarcas();
   }
 
   // @GetMapping("/modelos")
   // public List<Marca> listWithModelos() {
-  // return marcaRepository.findAllWithModelos();
+  // return marcaService.findAllWithModelos();
   // }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public Marca create(@RequestBody Marca marca) {
-    marcaRepository.save(marca);
-    return marca;
+    return marcaService.salvarMarca(marca);
   }
 
 }
