@@ -1,9 +1,14 @@
 package com.pedro.calcados.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -15,6 +20,10 @@ public class Categoria {
   @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "categorias_sequence")
   private Long id;
   private String nome;
+
+  @OneToMany(mappedBy = "categoria")
+  @JsonIgnore
+  private List<Modelo> modelos;
 
   public Long getId() {
     return this.id;

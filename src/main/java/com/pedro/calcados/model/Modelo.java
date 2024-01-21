@@ -24,12 +24,12 @@ public class Modelo {
   @JoinColumn(name = "marca_id", nullable = false)
   private Marca marca;
 
+  @ManyToOne
+  @JoinColumn(name = "categoria_id", nullable = false)
+  private Categoria categoria;
+
   public Long getId() {
     return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
   }
 
   public String getNome() {
@@ -40,7 +40,15 @@ public class Modelo {
     return marca;
   }
 
+  public Categoria getCategoria() {
+    return categoria;
+  }
+
   // setters
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   public void setNome(String nome) {
     this.nome = nome;
@@ -50,9 +58,19 @@ public class Modelo {
     this.marca = marca;
   }
 
+  public void setCategoria(Categoria categoria) {
+    this.categoria = categoria;
+  }
+
   @JsonProperty("marca_id")
   private void unpackMarca(Long marca_id) {
     this.marca = new Marca();
     this.marca.setId(marca_id);
+  }
+
+  @JsonProperty("categoria_id")
+  private void unpackCategoria(Long categoria_id) {
+    this.categoria = new Categoria();
+    this.categoria.setId(categoria_id);
   }
 }
