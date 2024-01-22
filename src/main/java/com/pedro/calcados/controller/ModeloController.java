@@ -32,13 +32,12 @@ public class ModeloController {
     return modeloService.listarModelos();
   }
 
-  // @GetMapping
-  // public List<Modelo> listByMarca(@RequestParam Long marcaId) {
-  // Marca marca = marcaRepository.findById(marcaId).orElseThrow(() -> new
-  // ResourceNotFoundException("Marca não encontrada com o ID: " + marcaId));
-  // }
+  @GetMapping(params = "nome")
+  public List<Modelo> listByMarca(@RequestParam String nome) {
+    return modeloService.listarModelosPorMarca(nome);
+  }
 
-  @GetMapping("/categoria")
+  @GetMapping(params = "categoriaId")
   @ResponseStatus(HttpStatus.OK)
   public List<Modelo> listByCategoria(@RequestParam Long categoriaId) {
     return modeloService.listarModelosPorCategoria(categoriaId);

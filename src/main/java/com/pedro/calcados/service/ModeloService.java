@@ -40,6 +40,10 @@ public class ModeloService {
     return modeloRepository.findByCategoriaId(categoriaId);
   }
 
+  public List<Modelo> listarModelosPorMarca(String nome) {
+    return modeloRepository.searchByMarcaLike(nome);
+  }
+
   public Modelo salvarModelo(Modelo modelo) {
     Categoria categoria = categoriaRepository.findById(modelo.getCategoria().getId()).orElse(null);
     Marca marca = marcaRepository.findById(modelo.getMarca().getId()).orElse(null);
