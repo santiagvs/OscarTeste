@@ -44,7 +44,6 @@ public class ModeloController {
   }
 
   @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity<Modelo> create(@RequestBody Modelo modelo) {
     Modelo modeloSalvo = modeloService.salvarModelo(modelo);
     return new ResponseEntity<>(modeloSalvo, HttpStatus.CREATED);
