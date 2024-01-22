@@ -40,4 +40,12 @@ public class Categoria {
   public void setNome(String nome) {
     this.nome = nome;
   }
+
+  public List<Modelo> getModelos() {
+    return this.modelos;
+  }
+
+  public void setModelos(List<Modelo> modelos) {
+    this.modelos = modelos;
+  }
 }
