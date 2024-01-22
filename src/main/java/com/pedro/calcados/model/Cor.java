@@ -11,8 +11,8 @@ import jakarta.persistence.Table;
 @Table(name = "cor")
 public class Cor {
   @Id
-  @SequenceGenerator(name = "modelos_sequence", sequenceName = "modelos_sequence", allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "modelos_sequence")
+  @SequenceGenerator(name = "cores_sequence", sequenceName = "cores_sequence", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "cores_sequence")
   private Long id;
   private String nome;
 
