@@ -32,6 +32,10 @@ public class ModeloService {
     return modeloRepository.findAll();
   }
 
+  public Modelo listarPorId(Long id) {
+    return modeloRepository.findById(id).orElse(null);
+  }
+
   public List<Modelo> listarModelosPorMarca(Long marcaId) {
     return modeloRepository.findAllByMarcaId(marcaId);
   }
@@ -52,5 +56,9 @@ public class ModeloService {
     modelo.setMarca(marca);
 
     return modeloRepository.save(modelo);
+  }
+
+  public void deletarModelo(Modelo modelo) {
+    modeloRepository.delete(modelo);
   }
 }
