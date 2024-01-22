@@ -43,7 +43,7 @@ public class CorController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
-    return new ResponseEntity<>(corService.listarPorId(id), HttpStatus.OK);
+    return ResponseEntity.status(HttpStatus.OK).body(corEncontrada);
   }
 
   @PostMapping
