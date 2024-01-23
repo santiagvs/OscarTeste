@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.pedro.calcados.model.Marca;
 import com.pedro.calcados.repository.MarcaRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class MarcaService {
   @Autowired
@@ -27,6 +29,16 @@ public class MarcaService {
 
   public Marca salvarMarca(Marca marca) {
     return marcaRepository.save(marca);
+  }
+
+  @Transactional
+  public void atualizarMarca(Long id, String nome) {
+    Marca marca = marcaRepository.findById(id)
+        .orElseThrow(() -> new IllegalStateException("A marca com id " + id + " não existe"));
+
+    if (nome != null && nome.length() > 0 && !nome.equals(marca.getNome())) {
+      marca.setNome(nome);
+    }
   }
 
   public void deletarMarca(Marca marca) {
