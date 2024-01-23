@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pedro.calcados.model.Cor;
+import com.pedro.calcados.model.Modelo;
 import com.pedro.calcados.model.Produto;
 import com.pedro.calcados.repository.CorRepository;
 import com.pedro.calcados.repository.ModeloRepository;
