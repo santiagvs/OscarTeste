@@ -1,5 +1,8 @@
 package com.pedro.calcados.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
@@ -8,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -19,6 +23,10 @@ public class Modelo {
   @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "modelos_sequence")
   private Long id;
   private String nome;
+
+  @OneToMany(mappedBy = "modelo")
+  @JsonIgnore
+  private List<Produto> produtos;
 
   @ManyToOne
   @JoinColumn(name = "marca_id", nullable = false)
