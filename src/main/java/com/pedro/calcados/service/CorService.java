@@ -27,4 +27,8 @@ public class CorService {
   public Cor salvarCor(Cor cor) {
     return corRepository.save(cor);
   }
+
+  public void deletarCor(Cor cor) {
+    corRepository.delete(cor);
+  }
 }
