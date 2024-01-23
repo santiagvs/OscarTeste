@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,9 +47,18 @@ public class MarcaController {
   }
 
   @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
-  public Marca create(@RequestBody Marca marca) {
-    return marcaService.salvarMarca(marca);
+  public ResponseEntity<?> create(@RequestBody Marca marca) {
+    try {
+      Marca marcaSalva = marcaService.salvarMarca(marca);
+      return new ResponseEntity<>(marcaSalva, HttpStatus.CREATED);
+    } catch (IllegalStateException e) {
+
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    } catch (Exception e) {
+
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(e.getMessage());
+    }
   }
 
   @PutMapping(path = "{id}")

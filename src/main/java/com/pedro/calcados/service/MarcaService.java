@@ -1,5 +1,6 @@
 package com.pedro.calcados.service;
 
+import java.text.Normalizer;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,14 @@ public class MarcaService {
   }
 
   public Marca salvarMarca(Marca marca) {
+    String nomeNormalizado = Normalizer
+        .normalize(marca.getNome().toLowerCase(), Normalizer.Form.NFD)
+        .replaceAll("[^\\p{ASCII}]", "");
+
+    if (marcaRepository.existsByNomeIgnoreCase(nomeNormalizado)) {
+      throw new IllegalStateException("A marca inserida já existe no nosso banco de dados.");
+    }
+
     return marcaRepository.save(marca);
   }
 

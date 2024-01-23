@@ -6,5 +6,5 @@ import com.pedro.calcados.model.Marca;
 
 @Repository
 public interface MarcaRepository extends JpaRepository<Marca, Long> {
-
+  boolean existsByNomeIgnoreCase(String nome);
 }
