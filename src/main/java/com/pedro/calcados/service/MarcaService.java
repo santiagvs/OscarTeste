@@ -21,7 +21,15 @@ public class MarcaService {
     return marcaRepository.findAll();
   }
 
+  public Marca listarPorId(Long id) {
+    return marcaRepository.findById(id).orElse(null);
+  }
+
   public Marca salvarMarca(Marca marca) {
     return marcaRepository.save(marca);
+  }
+
+  public void deletarMarca(Marca marca) {
+    marcaRepository.delete(marca);
   }
 }
