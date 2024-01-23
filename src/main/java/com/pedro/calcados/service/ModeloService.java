@@ -12,6 +12,8 @@ import com.pedro.calcados.repository.CategoriaRepository;
 import com.pedro.calcados.repository.MarcaRepository;
 import com.pedro.calcados.repository.ModeloRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ModeloService {
   @Autowired
@@ -60,6 +62,32 @@ public class ModeloService {
     modelo.setMarca(marca);
 
     return modeloRepository.save(modelo);
+  }
+
+  @Transactional
+  public void atualizarModelo(Long id, Modelo modeloRequest) {
+    String nome = modeloRequest.getNome();
+    Long marcaId = modeloRequest.getMarca() != null ? modeloRequest.getMarca().getId() : null;
+    Long categoriaId = modeloRequest.getCategoria() != null ? modeloRequest.getCategoria().getId() : null;
+
+    Modelo modeloEncontrado = modeloRepository.findById(id)
+        .orElseThrow(() -> new IllegalStateException("Modelo com id " + id + " não existe"));
+
+    if (nome != null && nome.length() > 0 && !modeloEncontrado.getNome().equals(nome)) {
+      modeloEncontrado.setNome(nome);
+    }
+
+    if (marcaId != null && marcaId > 0 && !modeloEncontrado.getMarca().getId().equals(marcaId)) {
+      Marca marca = marcaRepository.findById(marcaId)
+          .orElseThrow(() -> new IllegalStateException("A marca com id " + marcaId + " não existe"));
+      modeloEncontrado.setMarca(marca);
+    }
+
+    if (categoriaId != null && categoriaId > 0 && !modeloEncontrado.getCategoria().getId().equals(categoriaId)) {
+      Categoria categoria = categoriaRepository.findById(categoriaId)
+          .orElseThrow(() -> new IllegalStateException("A categoria com id " + categoriaId + " não existe"));
+      modeloEncontrado.setCategoria(categoria);
+    }
   }
 
   public void deletarModelo(Modelo modelo) {
