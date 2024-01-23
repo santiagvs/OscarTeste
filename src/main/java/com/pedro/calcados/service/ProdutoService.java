@@ -34,4 +34,21 @@ public class ProdutoService {
     return produtoRepository.findAll();
   }
 
+  public Produto listarPorId(Long id) {
+    return produtoRepository.findById(id).orElse(null);
+  }
+
+  public Produto criarProduto(Produto produto) {
+    Long modeloId = produto.getModelo().getId();
+    Modelo modelo = modeloRepository.findById(modeloId)
+        .orElseThrow(() -> new IllegalStateException("O modelo com id " + modeloId + " não foi encontrado."));
+    produto.setModelo(modelo);
+
+    Long corId = produto.getCor().getId();
+    Cor cor = corRepository.findById(corId).orElseThrow(() -> new IllegalStateException(
+        "A cor com id " + corId + " não foi encontrada."));
+    produto.setCor(cor);
+
+    return produtoRepository.save(produto);
+  }
 }
