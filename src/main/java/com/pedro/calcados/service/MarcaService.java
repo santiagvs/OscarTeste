@@ -10,9 +10,9 @@ import com.pedro.calcados.repository.MarcaRepository;
 
 @Service
 public class MarcaService {
+  @Autowired
   private final MarcaRepository marcaRepository;
 
-  @Autowired
   public MarcaService(MarcaRepository marcaRepository) {
     this.marcaRepository = marcaRepository;
   }

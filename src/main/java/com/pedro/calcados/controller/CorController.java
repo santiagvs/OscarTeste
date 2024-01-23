@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/cor")
 @RestController
 public class CorController {
+  @Autowired
   private final CorService corService;
 
-  @Autowired
   public CorController(CorService corService) {
     this.corService = corService;
   }

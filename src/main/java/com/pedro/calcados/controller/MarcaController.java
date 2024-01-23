@@ -23,9 +23,9 @@ import org.springframework.http.ResponseEntity;
 @RestController
 @RequestMapping("/marca")
 public class MarcaController {
+  @Autowired
   private final MarcaService marcaService;
 
-  @Autowired
   public MarcaController(MarcaService marcaService) {
     this.marcaService = marcaService;
   }

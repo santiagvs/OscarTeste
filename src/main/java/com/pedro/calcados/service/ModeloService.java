@@ -14,11 +14,15 @@ import com.pedro.calcados.repository.ModeloRepository;
 
 @Service
 public class ModeloService {
+  @Autowired
   private final ModeloRepository modeloRepository;
-  private final MarcaRepository marcaRepository;
-  private final CategoriaRepository categoriaRepository;
 
   @Autowired
+  private final MarcaRepository marcaRepository;
+
+  @Autowired
+  private final CategoriaRepository categoriaRepository;
+
   public ModeloService(
       ModeloRepository modeloRepository,
       MarcaRepository marcaRepository,

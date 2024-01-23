@@ -23,9 +23,9 @@ import com.pedro.calcados.service.ModeloService;
 @RestController
 @RequestMapping("/modelo")
 public class ModeloController {
+  @Autowired
   private final ModeloService modeloService;
 
-  @Autowired
   public ModeloController(ModeloService modeloService) {
     this.modeloService = modeloService;
   }

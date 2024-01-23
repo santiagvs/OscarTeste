@@ -9,9 +9,9 @@ import com.pedro.calcados.repository.CorRepository;
 
 @Service
 public class CorService {
+  @Autowired
   private final CorRepository corRepository;
 
-  @Autowired
   public CorService(CorRepository corRepository) {
     this.corRepository = corRepository;
   }
