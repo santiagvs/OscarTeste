@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +23,8 @@ public class Produto {
   private Long id;
 
   private Double preco;
+
+  @Column(name = "quantidade_estoque")
   private Long quantidadeEstoque;
   private List<Integer> tamanhos;
 
