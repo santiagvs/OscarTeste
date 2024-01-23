@@ -26,7 +26,7 @@ public class Produto {
   private List<Integer> tamanhos;
 
   @ManyToOne
-  @JoinColumn(name = "cor_id", nullable = false)
+  @JoinColumn(name = "cor_id")
   private Cor cor;
 
   @ManyToOne
