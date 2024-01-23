@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.pedro.calcados.model.Marca;
-import com.pedro.calcados.model.Modelo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,9 +30,20 @@ public class MarcaController {
     this.marcaService = marcaService;
   }
 
-  @GetMapping()
+  @GetMapping
   public List<Marca> list() {
     return marcaService.listarMarcas();
+  }
+
+  @GetMapping(path = "{id}")
+  public ResponseEntity<?> getOne(@PathVariable("id") Long id) {
+    Marca marcaEncontrada = marcaService.listarPorId(id);
+
+    if (marcaEncontrada == null) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Marca não encontrada");
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).body(marcaEncontrada);
   }
 
   @PostMapping
