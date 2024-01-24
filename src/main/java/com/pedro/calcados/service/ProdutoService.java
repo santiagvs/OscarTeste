@@ -53,4 +53,14 @@ public class ProdutoService {
 
     return produtoRepository.save(produto);
   }
+
+  public void deletarProduto(Long id) {
+    boolean exists = produtoRepository.existsById(id);
+
+    if (!exists) {
+      throw new IllegalStateException("O produto com id " + id + " não foi encontrado.");
+    }
+
+    produtoRepository.deleteById(id);
+  }
 }
