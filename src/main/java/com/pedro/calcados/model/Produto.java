@@ -1,5 +1,6 @@
 package com.pedro.calcados.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,8 +12,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "produto")
@@ -35,6 +39,10 @@ public class Produto {
   @ManyToOne
   @JoinColumn(name = "cor_id")
   private Cor cor;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "data_cadastro")
+  private LocalDateTime dataCadastro;
 
   public Long getId() {
     return id;
@@ -82,6 +90,19 @@ public class Produto {
 
   public void setTamanhos(List<Integer> tamanhos) {
     this.tamanhos = tamanhos;
+  }
+
+  public LocalDateTime getDataCadastro() {
+    return dataCadastro;
+  }
+
+  @PrePersist
+  protected void onCreate() {
+    this.dataCadastro = LocalDateTime.now();
+  }
+
+  public void setDataCadastro() {
+    this.dataCadastro = LocalDateTime.now();
   }
 
   @JsonProperty("modelo_id")
