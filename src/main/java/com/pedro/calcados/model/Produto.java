@@ -22,6 +22,10 @@ public class Produto {
   @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "produtos_sequence")
   private Long id;
 
+  @ManyToOne
+  @JoinColumn(name = "modelo_id", nullable = false)
+  private Modelo modelo;
+
   private Double preco;
 
   @Column(name = "quantidade_estoque")
@@ -31,10 +35,6 @@ public class Produto {
   @ManyToOne
   @JoinColumn(name = "cor_id")
   private Cor cor;
-
-  @ManyToOne
-  @JoinColumn(name = "modelo_id", nullable = false)
-  private Modelo modelo;
 
   public Long getId() {
     return id;
