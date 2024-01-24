@@ -12,14 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pedro.calcados.model.Produto;
 import com.pedro.calcados.service.ProdutoService;
 
-@RequestMapping("/produto")
 @RestController
 public class ProdutoController {
   @Autowired
@@ -29,17 +27,30 @@ public class ProdutoController {
     this.produtoService = produtoService;
   }
 
-  @GetMapping
+  @GetMapping("/produtos")
   public List<Produto> list() {
     return produtoService.listarProdutos();
   }
 
-  @GetMapping("{id}")
+  @GetMapping("/produto")
+  public List<Produto> getProdutosByCriteria(
+      @RequestParam(required = false) Integer tamanho,
+      @RequestParam(required = false) String categoria,
+      @RequestParam(required = false) Long corId,
+      @RequestParam(required = false) Double precoMin,
+      @RequestParam(required = false) Double precoMax,
+      @RequestParam(required = false) String marca,
+      @RequestParam(required = false) String nomeModelo) {
+
+    return produtoService.filtrarProdutos(tamanho, categoria, corId, precoMin, precoMax, marca, nomeModelo);
+  }
+
+  @GetMapping("/produto/{id}")
   public Produto get(@RequestParam Long id) {
     return produtoService.listarPorId(id);
   }
 
-  @PostMapping
+  @PostMapping("/produto")
   public ResponseEntity<?> create(@RequestBody Produto produto) {
     try {
       Produto produtoSalvo = produtoService.criarProduto(produto);
@@ -54,7 +65,7 @@ public class ProdutoController {
     }
   }
 
-  @DeleteMapping("{id}")
+  @DeleteMapping("/produto/{id}")
   public ResponseEntity<?> delete(@PathVariable("id") Long id) {
     try {
       produtoService.deletarProduto(id);

@@ -3,6 +3,7 @@ package com.pedro.calcados.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.pedro.calcados.model.Cor;
@@ -11,6 +12,7 @@ import com.pedro.calcados.model.Produto;
 import com.pedro.calcados.repository.CorRepository;
 import com.pedro.calcados.repository.ModeloRepository;
 import com.pedro.calcados.repository.ProdutoRepository;
+import com.pedro.calcados.specification.ProdutoSpecifications;
 
 @Service
 public class ProdutoService {
@@ -34,6 +36,37 @@ public class ProdutoService {
 
   public List<Produto> listarProdutos() {
     return produtoRepository.findAll();
+  }
+
+  public List<Produto> filtrarProdutos(Integer tamanho, String categoria, Long corId, Double precoMin,
+      Double precoMax, String marca, String nomeModelo) {
+    Specification<Produto> spec = Specification.where(null);
+
+    if (tamanho != null) {
+      spec = spec.and(ProdutoSpecifications.porTamanhos(tamanho));
+    }
+
+    if (categoria != null && !categoria.trim().isEmpty()) {
+      spec = spec.and(ProdutoSpecifications.porCategoria(categoria.trim()));
+    }
+
+    if (corId != null) {
+      spec = spec.and(ProdutoSpecifications.porCor(corId));
+    }
+
+    if (precoMin != null && precoMax != null) {
+      spec = spec.and(ProdutoSpecifications.porPreco(precoMin, precoMax));
+    }
+
+    if (marca != null && !marca.trim().isEmpty()) {
+      spec = spec.and(ProdutoSpecifications.porMarca(marca.trim()));
+    }
+
+    if (nomeModelo != null && !nomeModelo.trim().isEmpty()) {
+      spec = spec.and(ProdutoSpecifications.porNomeModelo(nomeModelo.trim()));
+    }
+
+    return produtoRepository.findAll(spec);
   }
 
   public Produto listarPorId(Long id) {
