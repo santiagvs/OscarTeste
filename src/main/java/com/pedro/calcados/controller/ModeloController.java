@@ -60,9 +60,18 @@ public class ModeloController {
   }
 
   @PostMapping
-  public ResponseEntity<Modelo> create(@RequestBody Modelo modelo) {
-    Modelo modeloSalvo = modeloService.salvarModelo(modelo);
-    return new ResponseEntity<>(modeloSalvo, HttpStatus.CREATED);
+  public ResponseEntity<?> create(@RequestBody Modelo modelo) {
+    try {
+      Modelo modeloSalvo = modeloService.salvarModelo(modelo);
+
+      return new ResponseEntity<>(modeloSalvo, HttpStatus.CREATED);
+    } catch (IllegalStateException e) {
+
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    } catch (Exception e) {
+
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+    }
   }
 
   @PutMapping(path = "{id}")
@@ -88,17 +97,19 @@ public class ModeloController {
 
   @DeleteMapping(path = "{id}")
   public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-    Modelo modeloEncontrado = modeloService.listarPorId(id);
-    if (modeloEncontrado == null) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Modelo não encontrado");
+    try {
+      modeloService.deletarModelo(id);
+      Map<String, String> response = new HashMap<>();
+      response.put("message", String.format("Modelo de id %s deletado com sucesso", id));
+
+      return ResponseEntity.status(HttpStatus.OK).body(response);
+    } catch (IllegalStateException e) {
+
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    } catch (Exception e) {
+
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
-
-    modeloService.deletarModelo(modeloEncontrado);
-
-    Map<String, String> response = new HashMap<>();
-    response.put("message", "Modelo removido com sucesso");
-
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
   }
 
 }

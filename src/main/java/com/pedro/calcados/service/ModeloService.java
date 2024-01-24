@@ -55,10 +55,14 @@ public class ModeloService {
   }
 
   public Modelo salvarModelo(Modelo modelo) {
-    Categoria categoria = categoriaRepository.findById(modelo.getCategoria().getId()).orElse(null);
-    Marca marca = marcaRepository.findById(modelo.getMarca().getId()).orElse(null);
-
+    Long categoriaId = modelo.getCategoria().getId();
+    Categoria categoria = categoriaRepository.findById(
+        categoriaId).orElseThrow(() -> new IllegalStateException("Categoria de id " + categoriaId + " não existe"));
     modelo.setCategoria(categoria);
+
+    Long marcaId = modelo.getMarca().getId();
+    Marca marca = marcaRepository.findById(marcaId)
+        .orElseThrow(() -> new IllegalStateException("Marca de id " + marcaId + " não existe"));
     modelo.setMarca(marca);
 
     return modeloRepository.save(modelo);
@@ -90,7 +94,10 @@ public class ModeloService {
     }
   }
 
-  public void deletarModelo(Modelo modelo) {
-    modeloRepository.delete(modelo);
+  public void deletarModelo(Long id) {
+    modeloRepository.findById(id)
+        .orElseThrow(() -> new IllegalStateException("Modelo com id " + id + " não existe"));
+
+    modeloRepository.deleteById(id);
   }
 }
