@@ -40,9 +40,9 @@ public class ProdutoController {
       @RequestParam(required = false) Double precoMin,
       @RequestParam(required = false) Double precoMax,
       @RequestParam(required = false) String marca,
-      @RequestParam(required = false) String nomeModelo) {
+      @RequestParam(required = false) String modelo) {
 
-    return produtoService.filtrarProdutos(tamanho, categoria, corId, precoMin, precoMax, marca, nomeModelo);
+    return produtoService.filtrarProdutos(tamanho, categoria, corId, precoMin, precoMax, marca, modelo);
   }
 
   @GetMapping("/produto/{id}")

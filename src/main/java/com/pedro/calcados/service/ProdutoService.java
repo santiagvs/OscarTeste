@@ -39,7 +39,7 @@ public class ProdutoService {
   }
 
   public List<Produto> filtrarProdutos(Integer tamanho, String categoria, Long corId, Double precoMin,
-      Double precoMax, String marca, String nomeModelo) {
+      Double precoMax, String marca, String modelo) {
     Specification<Produto> spec = Specification.where(null);
 
     if (tamanho != null) {
@@ -62,8 +62,8 @@ public class ProdutoService {
       spec = spec.and(ProdutoSpecifications.porMarca(marca.trim()));
     }
 
-    if (nomeModelo != null && !nomeModelo.trim().isEmpty()) {
-      spec = spec.and(ProdutoSpecifications.porNomeModelo(nomeModelo.trim()));
+    if (modelo != null && !modelo.trim().isEmpty()) {
+      spec = spec.and(ProdutoSpecifications.porModelo(modelo.trim()));
     }
 
     return produtoRepository.findAll(spec);

@@ -36,9 +36,9 @@ public class ProdutoSpecifications {
         dataCadastro);
   }
 
-  public static Specification<Produto> porNomeModelo(String nomeModelo) {
+  public static Specification<Produto> porModelo(String modelo) {
     return (root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("modelo").get("nome")),
-        "%" + nomeModelo.trim().toLowerCase() + "%");
+        "%" + modelo.trim().toLowerCase() + "%");
   }
 
 }
