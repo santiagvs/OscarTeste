@@ -30,7 +30,7 @@ public class MarcaService {
 
   public Marca salvarMarca(Marca marca) {
     String nomeNormalizado = Normalizer
-        .normalize(marca.getNome().toLowerCase(), Normalizer.Form.NFD)
+        .normalize(marca.getNome().trim().toLowerCase(), Normalizer.Form.NFD)
         .replaceAll("[^\\p{ASCII}]", "");
 
     if (marcaRepository.existsByNomeIgnoreCase(nomeNormalizado)) {
