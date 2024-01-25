@@ -16,6 +16,7 @@ import com.pedro.calcados.service.CorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RequestMapping("/cor")
@@ -36,15 +37,17 @@ public class CorController {
 
   @GetMapping(path = "{id}")
   public ResponseEntity<?> getOne(@PathVariable("id") Long id) {
-    Cor corEncontrada = corService.listarPorId(id);
+    try {
+      Cor cor = corService.listarPorId(id);
 
-    if (corEncontrada == null) {
-      Map<String, String> response = new HashMap<>();
-      response.put("message", "Cor não encontrada");
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+      return ResponseEntity.status(HttpStatus.OK).body(cor);
+    } catch (IllegalStateException e) {
+
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    } catch (Exception e) {
+
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
-
-    return ResponseEntity.status(HttpStatus.OK).body(corEncontrada);
   }
 
   @PostMapping
@@ -53,22 +56,43 @@ public class CorController {
     return corService.salvarCor(cor);
   }
 
+  @PutMapping(path = "{id}")
+  public ResponseEntity<?> update(
+      @PathVariable("id") Long id,
+      @RequestBody Cor cor) {
+    try {
+      corService.atualizarCor(id, cor.getNome());
+
+      Map<String, String> response = new HashMap<>();
+      response.put("message", String.format("Cor de id %s foi atualizada com sucesso", id));
+
+      return ResponseEntity.status(HttpStatus.OK).body(response);
+    } catch (IllegalStateException e) {
+
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    } catch (Exception e) {
+
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(e.getMessage());
+    }
+  }
+
   @DeleteMapping(path = "{id}")
   public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-    Cor corEncontrada = corService.listarPorId(id);
+    try {
+      corService.deletarCor(id);
 
-    if (corEncontrada == null) {
       Map<String, String> response = new HashMap<>();
-      response.put("message", "Cor não encontrada");
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+      response.put("message", String.format("Cor de id %s deletada com sucesso", id));
+
+      return ResponseEntity.status(HttpStatus.OK).body(response);
+    } catch (IllegalStateException e) {
+
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    } catch (Exception e) {
+
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
-
-    corService.deletarCor(corEncontrada);
-
-    Map<String, String> response = new HashMap<>();
-    response.put("message", "Cor removida com sucesso");
-
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
   }
 
 }
