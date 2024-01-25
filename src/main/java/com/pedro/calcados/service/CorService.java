@@ -55,6 +55,7 @@ public class CorService {
     }
   }
 
+  @Transactional
   public void deletarCor(Long id) {
     boolean exists = corRepository.existsById(id);
 
