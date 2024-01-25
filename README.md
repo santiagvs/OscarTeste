@@ -19,10 +19,24 @@ git clone git@github.com:santiagvs/OscarTeste.git
 git clone https://github.com/santiagvs/OscarTeste.git
 ```
 
-Para executar a aplicação, basta executar o seguinte comando no diretório raiz do projeto (**antes**, configure as credenciais do banco, conforme é explicado na próxima seção):
+É bom que se tenha o **Maven** instalado, pois pode-se rodar o projeto, instalar as dependências e outras ações sem depender necessariamente da IDE utilizada (IntelliJ, Visual Studio Code, Eclipse).
+
+- Para instalar as dependências, entre na raiz do projeto onde está o arquivo `pom.xml` e execute na linha de comando:
+
+```bash
+mvn install
+```
+
+- Para executar a aplicação, basta executar o seguinte comando no diretório raiz do projeto (**antes**, configure as credenciais do banco, conforme é explicado na próxima seção):
 
 ```bash
 mvn spring-boot:run
+```
+
+- Para rodar todos os testes, execute o comando:
+
+```bash
+mvn test
 ```
 
 ## Configuração do banco de dados
