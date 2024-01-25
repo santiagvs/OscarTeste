@@ -1,7 +1,6 @@
 package com.pedro.calcados.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,11 +29,12 @@ public class Produto {
   @JoinColumn(name = "modelo_id", nullable = false)
   private Modelo modelo;
 
+  private Integer tamanho;
+
   private Double preco;
 
   @Column(name = "quantidade_estoque")
   private Long quantidadeEstoque;
-  private List<Integer> tamanhos;
 
   @ManyToOne
   @JoinColumn(name = "cor_id")
@@ -84,12 +84,12 @@ public class Produto {
     this.modelo = modelo;
   }
 
-  public List<Integer> getTamanhos() {
-    return tamanhos;
+  public Integer getTamanho() {
+    return tamanho;
   }
 
-  public void setTamanhos(List<Integer> tamanhos) {
-    this.tamanhos = tamanhos;
+  public void setTamanho(Integer tamanho) {
+    this.tamanho = tamanho;
   }
 
   public LocalDateTime getDataCadastro() {

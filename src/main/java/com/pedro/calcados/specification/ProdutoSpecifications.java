@@ -8,8 +8,8 @@ import com.pedro.calcados.model.Produto;
 
 public class ProdutoSpecifications {
 
-  public static Specification<Produto> porTamanhos(Integer tamanho) {
-    return (root, query, criteriaBuilder) -> criteriaBuilder.in(root.get("tamanhos")).value(tamanho);
+  public static Specification<Produto> porTamanho(Integer tamanho) {
+    return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("tamanho"), tamanho);
   }
 
   public static Specification<Produto> porCategoria(String categoria) {

@@ -43,7 +43,7 @@ public class ProdutoService {
     Specification<Produto> spec = Specification.where(null);
 
     if (tamanho != null) {
-      spec = spec.and(ProdutoSpecifications.porTamanhos(tamanho));
+      spec = spec.and(ProdutoSpecifications.porTamanho(tamanho));
     }
 
     if (categoria != null && !categoria.trim().isEmpty()) {
