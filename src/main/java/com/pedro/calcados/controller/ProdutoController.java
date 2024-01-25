@@ -40,14 +40,24 @@ public class ProdutoController {
       @RequestParam(required = false) Double precoMin,
       @RequestParam(required = false) Double precoMax,
       @RequestParam(required = false) String marca,
-      @RequestParam(required = false) String nomeModelo) {
+      @RequestParam(required = false) String modelo) {
 
-    return produtoService.filtrarProdutos(tamanho, categoria, corId, precoMin, precoMax, marca, nomeModelo);
+    return produtoService.filtrarProdutos(tamanho, categoria, corId, precoMin, precoMax, marca, modelo);
   }
 
   @GetMapping("/produto/{id}")
-  public Produto get(@RequestParam Long id) {
-    return produtoService.listarPorId(id);
+  public ResponseEntity<?> get(@PathVariable("id") Long id) {
+    try {
+      Produto produto = produtoService.listarPorId(id);
+
+      return ResponseEntity.status(HttpStatus.OK).body(produto);
+    } catch (IllegalStateException e) {
+
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    } catch (Exception e) {
+
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+    }
   }
 
   @PostMapping("/produto")

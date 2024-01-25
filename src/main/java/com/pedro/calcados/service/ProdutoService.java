@@ -1,6 +1,7 @@
 package com.pedro.calcados.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -39,7 +40,7 @@ public class ProdutoService {
   }
 
   public List<Produto> filtrarProdutos(Integer tamanho, String categoria, Long corId, Double precoMin,
-      Double precoMax, String marca, String nomeModelo) {
+      Double precoMax, String marca, String modelo) {
     Specification<Produto> spec = Specification.where(null);
 
     if (tamanho != null) {
@@ -54,22 +55,35 @@ public class ProdutoService {
       spec = spec.and(ProdutoSpecifications.porCor(corId));
     }
 
-    if (precoMin != null && precoMax != null) {
-      spec = spec.and(ProdutoSpecifications.porPreco(precoMin, precoMax));
-    }
+    final Specification<Produto> finalSpec = spec;
+
+    spec = Optional.ofNullable(precoMin)
+        .map(min -> finalSpec
+            .and(ProdutoSpecifications.porPreco(min, Optional.ofNullable(precoMax).orElse(Double.MAX_VALUE))))
+        .orElse(spec);
+
+    spec = Optional.ofNullable(precoMax)
+        .map(max -> finalSpec.and(ProdutoSpecifications.porPreco(Optional.ofNullable(precoMin).orElse(0.0), max)))
+        .orElse(spec);
 
     if (marca != null && !marca.trim().isEmpty()) {
       spec = spec.and(ProdutoSpecifications.porMarca(marca.trim()));
     }
 
-    if (nomeModelo != null && !nomeModelo.trim().isEmpty()) {
-      spec = spec.and(ProdutoSpecifications.porNomeModelo(nomeModelo.trim()));
+    if (modelo != null && !modelo.trim().isEmpty()) {
+      spec = spec.and(ProdutoSpecifications.porModelo(modelo.trim()));
     }
 
     return produtoRepository.findAll(spec);
   }
 
   public Produto listarPorId(Long id) {
+    boolean exists = produtoRepository.existsById(id);
+
+    if (!exists) {
+      throw new IllegalStateException("O produto com id " + id + " não foi encontrado.");
+    }
+
     return produtoRepository.findById(id).orElse(null);
   }
 
