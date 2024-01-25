@@ -169,8 +169,6 @@ De acordo com essa configuração, buscará por todos os produtos/calçados que 
 ```json
 {
   "modelo_id": 3,
-  "marca_id": 1,
-  "categoria_id": 2,
   "cor_id": 9,
   "tamanho": 40,
   "quantidadeEstoque": 200,
