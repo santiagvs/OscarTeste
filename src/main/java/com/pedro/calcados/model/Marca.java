@@ -12,7 +12,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.Data;
 
+@Builder
+@Data
 @Entity
 @Table(name = "marca")
 public class Marca {
@@ -25,28 +29,4 @@ public class Marca {
   @OneToMany(mappedBy = "marca", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonIgnore
   private List<Modelo> modelos;
-
-  public Long getId() {
-    return id;
-  }
-
-  public String getNome() {
-    return nome;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public void setNome(String nome) {
-    this.nome = nome;
-  }
-
-  public List<Modelo> getModelos() {
-    return modelos;
-  }
-
-  public void setModelos(List<Modelo> modelos) {
-    this.modelos = modelos;
-  }
 }
