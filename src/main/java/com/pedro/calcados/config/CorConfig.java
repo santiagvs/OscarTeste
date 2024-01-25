@@ -16,16 +16,16 @@ public class CorConfig {
     return args -> {
 
       if (repository.findAll().size() == 0) {
-        Cor preto = new Cor("Preto");
-        Cor branco = new Cor("Branco");
-        Cor vermelho = new Cor("Vermelho");
-        Cor azul = new Cor("Azul");
-        Cor verde = new Cor("Verde");
-        Cor amarelo = new Cor("Amarelo");
-        Cor cinza = new Cor("Cinza");
-        Cor prata = new Cor("Prata");
-        Cor dourado = new Cor("Dourado");
-        Cor marrom = new Cor("Marrom");
+        Cor preto = Cor.builder().nome("Preto").build();
+        Cor branco = Cor.builder().nome("Branco").build();
+        Cor vermelho = Cor.builder().nome("Vermelho").build();
+        Cor azul = Cor.builder().nome("Azul").build();
+        Cor verde = Cor.builder().nome("Verde").build();
+        Cor amarelo = Cor.builder().nome("Amarelo").build();
+        Cor cinza = Cor.builder().nome("Cinza").build();
+        Cor prata = Cor.builder().nome("Prata").build();
+        Cor dourado = Cor.builder().nome("Dourado").build();
+        Cor marrom = Cor.builder().nome("Marrom").build();
 
         repository.saveAll(
             List.of(
