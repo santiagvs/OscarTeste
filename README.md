@@ -22,7 +22,7 @@ mvn spring-boot:run
 
 ## Configuração do Banco de Dados
 
-O projeto utiliza o PostgreSQL como banco de dados. Deve-se verificar se há um banco PostgreSQL rodando na máquina. Também deve-se configurar as informações sensíveis (usuário e senha do banco) de configuração no arquivo `secrets.properties`.
+O projeto utiliza o PostgreSQL como banco de dados. Deve-se verificar se há um banco PostgreSQL rodando na máquina (a configuração da porta e do nome do banco é definida na propriedade `spring.datasource.url` em `application.properties`). Também deve-se configurar as informações sensíveis (usuário e senha do banco) de configuração no arquivo `secrets.properties` em `src/main/resources`.
 
 ```application.properties
 spring.datasource.username=seu_usuario
@@ -35,7 +35,7 @@ Para fazer as requisições, é recomendado usar algum client HTTP para fazer as
 
 ## Endpoints da API
 
->**Observação:** nesta aplicação, as rotas de verbo POST e PUT precisam ter valores informados no corpo da requisição (_request body_) referentes ao nome dos campos das tabelas. Por isso é extremamente recomendável que se use algum dos clients HTTP mencionados na seção de "Requisições".
+>**Observação:** nesta aplicação, as rotas de verbo POST e PUT precisam ter valores em **JSON** informados no corpo da requisição (_request body_) referentes ao nome dos campos das tabelas. Por isso é extremamente recomendável que se use algum dos clients HTTP mencionados na seção de "Requisições".
 
 ------------------------
 
@@ -51,6 +51,14 @@ Para fazer as requisições, é recomendado usar algum client HTTP para fazer as
 | PUT    | `/marca/{id}`      | Atualiza informações de uma marca.           |
 | DELETE | `/marca/{id}`      | Deleta uma marca por ID.                     |
 
+#### Exemplo de criação de uma Marca
+
+```json
+{
+  "nome": "Marca X"
+}
+```
+
 ### Categoria
 
 | Método | Endpoint             | Descrição                                  |
@@ -60,6 +68,14 @@ Para fazer as requisições, é recomendado usar algum client HTTP para fazer as
 | POST   | `/categoria`         | Cria uma nova categoria.                   |
 | PUT    | `/categoria/{id}`    | Atualiza informações de uma categoria.     |
 | DELETE | `/categoria/{id}`    | Deleta uma categoria por ID.               |
+
+#### Exemplo de criação de uma Categoria
+
+```json
+{
+  "nome": "Sapatos"
+}
+```
 
 ### Modelo
 
@@ -73,9 +89,19 @@ Para fazer as requisições, é recomendado usar algum client HTTP para fazer as
 | PUT    | `/modelo/{id}`            | Atualiza informações de um modelo.    |
 | DELETE | `/modelo/{id}`            | Deleta um modelo de calçado por ID.   |
 
+#### Exemplo de criação de um Modelo
+
+```json
+{
+  "nome": "Grand Court",
+  "marca_id": 1,
+  "categoria_id": 2
+}
+```
+
 ### Cor
 
-> Obs: esta tabela em questão já vem _seedada_ por definição, no diretório `config`, arquivo CorConfig.java. Ao inicializar a aplicação pela primeira vez, quando o Hibernate realiza a criação das tabelas, Cor já tem sua tabela populada com alguns registros.
+> Obs: esta tabela em questão já vem **_seedada_** por definição, no diretório `config`, arquivo CorConfig.java. Ao inicializar a aplicação pela primeira vez, quando o Hibernate realiza a criação das tabelas, Cor já tem sua tabela populada com alguns registros.
 
 | Método | Endpoint      | Descrição                               |
 |--------|---------------|-----------------------------------------|
@@ -84,6 +110,14 @@ Para fazer as requisições, é recomendado usar algum client HTTP para fazer as
 | POST   | `/cor`        | Cria uma nova cor.                      |
 | PUT    | `/cor/{id}`   | Atualiza informações de uma cor.        |
 | DELETE | `/cor/{id}`   | Deleta uma cor por ID.                  |
+
+#### Exemplo de criação de uma Cor
+
+```json
+{
+  "nome": "Marsala"
+}
+```
 
 ### Produto
 
@@ -116,4 +150,18 @@ Exemplo:
 GET /produto?tamanho=40&corId=1&precoMin=50.0&marca=Nike
 ```
 
-De acordo com essa configuração, buscará por todos os produtos/calçados que possuem tamanho 40, a cor de id 1, preço mínimo de 50 reais e que a marca seja Nike.
+De acordo com essa configuração, buscará por todos os produtos/calçados que possuem tamanho 40, a cor de id 1, preço mínimo de 50 reais e que a marca seja Nike, caso existam.
+
+#### Exemplo de criação de um Produto
+
+```json
+{
+  "modelo_id": 3,
+  "marca_id": 1,
+  "categoria_id": 2,
+  "cor_id": 9,
+  "tamanho": 40,
+  "quantidadeEstoque": 200,
+  "preco": 299.99
+}
+```
