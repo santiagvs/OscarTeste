@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.pedro.calcados.exceptions.NullEntityException;
 import com.pedro.calcados.model.Cor;
 import com.pedro.calcados.model.Modelo;
 import com.pedro.calcados.model.Produto;
@@ -92,8 +91,6 @@ public class ProdutoService {
 
   @Transactional
   public void atualizarProduto(Long id, Produto produtoRequest) {
-    Optional.ofNullable(produtoRequest).orElseThrow(() -> new NullEntityException("O produto não pode ser nulo."));
-
     Produto produto = produtoRepository.findById(id)
         .orElseThrow(() -> new IllegalStateException("O produto com id " + id + " não foi encontrado."));
 

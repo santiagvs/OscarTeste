@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pedro.calcados.exceptions.NullEntityException;
 import com.pedro.calcados.model.Produto;
 import com.pedro.calcados.service.ProdutoService;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -85,9 +84,6 @@ public class ProdutoController {
       response.put("message", String.format("Produto de id %s atualizado com sucesso", id));
 
       return ResponseEntity.status(HttpStatus.OK).body(response);
-    } catch (NullEntityException e) {
-
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     } catch (IllegalStateException e) {
 
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
