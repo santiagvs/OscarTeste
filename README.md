@@ -17,20 +17,27 @@ git clone git@github.com:santiagvs/OscarTeste.git
 git clone https://github.com/santiagvs/OscarTeste.git
 ```
 
-Para executar a aplicação, basta executar o seguinte comando no diretório raiz do projeto:
+Para executar a aplicação, basta executar o seguinte comando no diretório raiz do projeto (**antes**, configure as credenciais do banco, conforme é explicado na próxima seção):
 
 ```bash
 mvn spring-boot:run
 ```
 
-## Configuração do Banco de Dados
+## Configuração do banco de dados
 
-O projeto utiliza o PostgreSQL como banco de dados. Deve-se verificar se há um banco PostgreSQL rodando na máquina (a configuração da porta e do nome do banco é definida na propriedade `spring.datasource.url` em `application.properties`). Também deve-se configurar as informações sensíveis (usuário e senha do banco) de configuração no arquivo `secrets.properties` em `src/main/resources`.
+O projeto utiliza o **PostgreSQL** como banco de dados. Deve-se verificar se há um banco PostgreSQL rodando na máquina (a configuração da porta e do nome do banco é definida na propriedade `spring.datasource.url` em `application.properties` e deve estar conforme as configurações da máquina. No Linux, basta digitar na linha de comando `netstat -an | grep 5432` para verificar se o Postgres está rodando, já que essa é a porta padrão dele).
+
+Também deve-se configurar as informações sensíveis (usuário e senha do banco) de configuração no arquivo `secrets.properties` em `src/main/resources`.
 
 ```application.properties
 spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
 ```
+
+## Criação do banco pós-configuração
+
+Na raiz do projeto há um `script.sql` com os comandos da criação e manipulação da estrutura das tabelas, porém **não é necessário usá-lo.**
+Isso porque o Hibernate **já cria o banco automaticamente** quando a aplicação é iniciada pela primeira vez (ou caso a opção `spring.jpa.hibernate.ddl-auto` esteja setada como `create-drop`, que fará que toda vez que a aplicação seja reiniciada ele destrua e recrie as tabelas) e portanto não é necessário usar esse script de criação do banco.
 
 ## Requisições
 
