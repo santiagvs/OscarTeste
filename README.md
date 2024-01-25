@@ -1,12 +1,15 @@
 # Teste Oscar
 
-Este projeto é um app em Spring Boot e Java (versão 17), utilizando o PostgreSQL como banco de dados, para criar, ler, atualizar e deletar dados de calçados cadastrados. Ele permite gerenciar informações sobre modelos de calçados, incluindo nome, marca e categoria.
+Este projeto é um app em Spring Boot e Java (versão 17), utilizando o PostgreSQL como banco de dados, para criar, ler, atualizar e deletar dados de calçados cadastrados. A aplicação tem como gerenciador o Maven.
+
+Este app permite gerenciar informações sobre modelos de calçados, incluindo nome, marca, categoria, preço, tamanhos, cor, quantidade no estoque, etc.
 
 ## Executando a aplicação
 
 Primeiro, clone este repositório na sua máquina através do Git por meio do comando `git clone`:
 
 ```bash
+# caso tenha chave SSH configurada na máquina e no GitHub
 git clone git@github.com:santiagvs/OscarTeste.git
 
 # ou
