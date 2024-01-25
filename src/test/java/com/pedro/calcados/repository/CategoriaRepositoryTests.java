@@ -17,10 +17,8 @@ public class CategoriaRepositoryTests {
 
   @Test
   public void CategoriaRepository_Save_ReturnsSavedCategoria() {
-    // Arrange
     Categoria categoria = Categoria.builder().nome("Tênis").build();
 
-    // Act
     Categoria savedCategoria = categoriaRepository.save(categoria);
 
     // Assert
@@ -30,18 +28,49 @@ public class CategoriaRepositoryTests {
 
   @Test
   public void CategoriaRepository_FindAll_ReturnsListOfSavedCategorias() {
-    // Arrange
     Categoria categoria1 = Categoria.builder().nome("Tênis").build();
     Categoria categoria2 = Categoria.builder().nome("Sapatos").build();
     categoriaRepository.save(categoria1);
     categoriaRepository.save(categoria2);
 
-    // Act
     Iterable<Categoria> categorias = categoriaRepository.findAll();
 
-    // Assert
     Assertions.assertThat(categorias).isNotEmpty();
     Assertions.assertThat(categorias).hasSize(2);
     Assertions.assertThat(categorias).element(0).hasFieldOrPropertyWithValue("nome", "Tênis");
   }
+
+  @Test
+  public void CategoriaRepository_FindById_ReturnsCategoria() {
+    Categoria categoria = Categoria.builder().nome("Tênis").build();
+    categoriaRepository.save(categoria);
+
+    Categoria foundCategoria = categoriaRepository.findById(categoria.getId()).get();
+
+    Assertions.assertThat(foundCategoria).isNotNull();
+    Assertions.assertThat(foundCategoria.getNome()).isEqualTo("Tênis");
+  }
+
+  @Test
+  public void CategoriaRepository_Update_ReturnsUpdatedCategoria() {
+    Categoria categoria = Categoria.builder().nome("Tênis").build();
+    categoriaRepository.save(categoria);
+
+    categoria.setNome("Sapatos");
+    Categoria updatedCategoria = categoriaRepository.save(categoria);
+
+    Assertions.assertThat(updatedCategoria).isNotNull();
+    Assertions.assertThat(updatedCategoria.getNome()).isEqualTo("Sapatos");
+  }
+
+  @Test
+  public void CategoriaRepository_Delete_RemovesCategoria() {
+    Categoria categoria = Categoria.builder().nome("Tênis").build();
+    categoriaRepository.save(categoria);
+
+    categoriaRepository.delete(categoria);
+
+    Assertions.assertThat(categoriaRepository.findById(categoria.getId())).isEmpty();
+  }
+
 }
