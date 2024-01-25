@@ -1,6 +1,7 @@
 package com.pedro.calcados.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -54,9 +55,16 @@ public class ProdutoService {
       spec = spec.and(ProdutoSpecifications.porCor(corId));
     }
 
-    if (precoMin != null && precoMax != null) {
-      spec = spec.and(ProdutoSpecifications.porPreco(precoMin, precoMax));
-    }
+    final Specification<Produto> finalSpec = spec;
+
+    spec = Optional.ofNullable(precoMin)
+        .map(min -> finalSpec
+            .and(ProdutoSpecifications.porPreco(min, Optional.ofNullable(precoMax).orElse(Double.MAX_VALUE))))
+        .orElse(spec);
+
+    spec = Optional.ofNullable(precoMax)
+        .map(max -> finalSpec.and(ProdutoSpecifications.porPreco(Optional.ofNullable(precoMin).orElse(0.0), max)))
+        .orElse(spec);
 
     if (marca != null && !marca.trim().isEmpty()) {
       spec = spec.and(ProdutoSpecifications.porMarca(marca.trim()));
@@ -70,6 +78,12 @@ public class ProdutoService {
   }
 
   public Produto listarPorId(Long id) {
+    boolean exists = produtoRepository.existsById(id);
+
+    if (!exists) {
+      throw new IllegalStateException("O produto com id " + id + " não foi encontrado.");
+    }
+
     return produtoRepository.findById(id).orElse(null);
   }
 
