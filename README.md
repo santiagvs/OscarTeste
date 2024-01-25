@@ -137,15 +137,15 @@ Esse é o cerne central da aplicação. O mais importante é a rota `/produto?qu
 
 Ao utilizar a rota`/produto` com o método GET, você pode passar os seguintes parâmetros via _query params_ para filtrar os produtos de acordo com os argumentos passados:
 
-| Parâmetro     | Tipo      | Descrição                                        |
-|---------------|-----------|--------------------------------------------------|
-| tamanho       | Integer   | Filtra produtos pelo tamanho especificado.       |
-| categoria     | String    | Filtra produtos pela categoria especificada.     |
-| corId         | Long      | Filtra produtos pela cor através do ID da cor.   |
-| precoMin      | Double    | Filtra produtos com preço igual ou acima de.     |
-| precoMax      | Double    | Filtra produtos com preço igual ou abaixo de.    |
-| marca         | String    | Filtra produtos pelo nome da marca especificada. |
-| modelo        | String    | Filtra produtos pelo nome do modelo especificado.|
+| Parâmetro     | Tipo      | Descrição                                                        |
+|---------------|-----------|------------------------------------------------------------------|
+| tamanho       | Integer   | Filtra produtos pelo tamanho especificado.                       |
+| categoria     | String    | Filtra produtos pela categoria especificada.                     |
+| corId         | Long      | Filtra produtos pela cor através do ID da cor.                   |
+| precoMin      | Double    | Filtra produtos com preço igual ou acima do valor informado.     |
+| precoMax      | Double    | Filtra produtos com preço igual ou abaixo do valor informado.    |
+| marca         | String    | Filtra produtos pelo nome da marca especificada.                 |
+| modelo        | String    | Filtra produtos pelo nome do modelo especificado.                |
 
 Exemplo:
 
