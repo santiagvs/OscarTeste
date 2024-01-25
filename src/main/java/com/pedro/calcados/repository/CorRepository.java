@@ -7,4 +7,6 @@ import com.pedro.calcados.model.Cor;
 @Repository
 public interface CorRepository extends JpaRepository<Cor, Long> {
   boolean existsByNomeIgnoreCase(String nome);
+
+  Cor findByNomeIgnoreCase(String nome);
 }
