@@ -94,7 +94,7 @@ public class ProdutoService {
     Produto produto = produtoRepository.findById(id)
         .orElseThrow(() -> new IllegalStateException("O produto com id " + id + " não foi encontrado."));
 
-    if (produtoRequest.getPreco() != null) {
+    if (produtoRequest.getPreco() != null || produtoRequest.getPreco() < 0) {
       produto.setPreco(produtoRequest.getPreco());
     }
 
