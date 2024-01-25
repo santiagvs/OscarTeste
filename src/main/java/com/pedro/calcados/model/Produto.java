@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -46,6 +47,11 @@ public class Produto {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "data_cadastro")
   private LocalDateTime dataCadastro;
+
+  @PrePersist
+  private void onCreate() {
+    this.dataCadastro = LocalDateTime.now();
+  }
 
   @JsonProperty("modelo_id")
   private void unpackModelo(Long modelo_id) {
