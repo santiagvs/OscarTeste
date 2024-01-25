@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.pedro.calcados.exceptions.NullEntityException;
 import com.pedro.calcados.model.Cor;
 import com.pedro.calcados.model.Modelo;
 import com.pedro.calcados.model.Produto;
@@ -14,6 +15,8 @@ import com.pedro.calcados.repository.CorRepository;
 import com.pedro.calcados.repository.ModeloRepository;
 import com.pedro.calcados.repository.ProdutoRepository;
 import com.pedro.calcados.specification.ProdutoSpecifications;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class ProdutoService {
@@ -85,6 +88,40 @@ public class ProdutoService {
     }
 
     return produtoRepository.findById(id).orElse(null);
+  }
+
+  @Transactional
+  public void atualizarProduto(Long id, Produto produtoRequest) {
+    Optional.ofNullable(produtoRequest).orElseThrow(() -> new NullEntityException("O produto não pode ser nulo."));
+
+    Produto produto = produtoRepository.findById(id)
+        .orElseThrow(() -> new IllegalStateException("O produto com id " + id + " não foi encontrado."));
+
+    if (produtoRequest.getPreco() != null) {
+      produto.setPreco(produtoRequest.getPreco());
+    }
+
+    if (produtoRequest.getQuantidadeEstoque() != null) {
+      produto.setQuantidadeEstoque(produtoRequest.getQuantidadeEstoque());
+    }
+
+    if (produtoRequest.getTamanho() != null) {
+      produto.setTamanho(produtoRequest.getTamanho());
+    }
+
+    if (produtoRequest.getModelo() != null && produtoRequest.getModelo().getId() != null) {
+      Modelo modelo = modeloRepository.findById(produtoRequest.getModelo().getId())
+          .orElseThrow(() -> new IllegalStateException(
+              "O modelo com id " + produtoRequest.getModelo().getId() + " não foi encontrado."));
+      produto.setModelo(modelo);
+    }
+
+    if (produtoRequest.getCor() != null && produtoRequest.getCor().getId() != null) {
+      Cor cor = corRepository.findById(produtoRequest.getCor().getId())
+          .orElseThrow(() -> new IllegalStateException(
+              "A cor com id " + produtoRequest.getCor().getId() + " não foi encontrada."));
+      produto.setCor(cor);
+    }
   }
 
   public Produto criarProduto(Produto produto) {
