@@ -40,12 +40,44 @@ public class MarcaRepositoryTests {
   }
 
   @Test
-  public void MarcaRepository_FindById_ReturnsMarcaById() {
+  public void MarcaRepository_FindById_ReturnsMarcaByIdNotNull() {
     Marca marca = Marca.builder().nome("Puma").build();
     marcaRepository.save(marca);
 
     Marca marcaById = marcaRepository.findById(marca.getId()).get();
 
     Assertions.assertThat(marcaById).isNotNull();
+  }
+
+  @Test
+  public void MarcaRepository_FindByName_ReturnsMarcaByNomeNotNull() {
+    Marca marca = Marca.builder().nome("Nike").build();
+    marcaRepository.save(marca);
+
+    Marca marcaByName = marcaRepository.findByNomeIgnoreCase("nikE").get();
+
+    Assertions.assertThat(marcaByName).isNotNull();
+  }
+
+  @Test
+  public void MarcaRepository_UpdateMarca_ReturnsMarcaNotNull() {
+    Marca marca = Marca.builder().nome("Nike").build();
+    marcaRepository.save(marca);
+
+    Marca marcaSaved = marcaRepository.findById(marca.getId()).get();
+    marcaSaved.setNome("Adidas");
+
+    Assertions.assertThat(marcaSaved).isNotNull();
+    Assertions.assertThat(marcaSaved.getNome()).isEqualTo("Adidas");
+  }
+
+  @Test
+  public void MarcaRepository_DeleteMarca_ReturnsMarcaNotFound() {
+    Marca marca = Marca.builder().nome("Nike").build();
+    marcaRepository.save(marca);
+
+    marcaRepository.deleteById(marca.getId());
+
+    Assertions.assertThat(marcaRepository.findById(marca.getId())).isEmpty();
   }
 }
